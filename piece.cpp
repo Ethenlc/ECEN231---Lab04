@@ -23,8 +23,14 @@ using namespace std;
  ***********************************************/
 const Piece & Piece::operator = (const Piece & rhs)
 {
-
-   return *this;
+	if (this != &rhs)
+	{
+		this->position = rhs.position;  // Copy the position.
+		this->fWhite = rhs.fWhite;		// Copy the color.
+		this->nMoves = rhs.nMoves;		// Copy the move count.
+		this->lastMove = rhs.lastMove;  // Copy the last move.
+	}
+	return *this;
 }
 
 /************************************************
@@ -33,5 +39,6 @@ const Piece & Piece::operator = (const Piece & rhs)
  ***********************************************/
 void Piece::getMoves(set <Move> & movesSet, const Board & board) const
 {
+
 }
 

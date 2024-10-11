@@ -10,6 +10,7 @@
 #pragma once
 
 #include "piece.h"
+#include "position.h"
 
 class TestSpace;
 
@@ -21,8 +22,9 @@ class Space : public Piece
 {
    friend TestSpace;
 public:
-   Space(int c, int r) : Piece(9, 9)   {               }
+   Space(int c, int r) : Piece(9, 9), position(c, r) { }
    ~Space()                            {               }
-   PieceType getType()           const { return ROOK;  }
+   PieceType getType()           const { return SPACE; }
    void display(ogstream* pgout) const {               }
+   Position position;
 };

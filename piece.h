@@ -2,7 +2,7 @@
  * Header File:
  *    PIECE 
  * Author:
-*    <your name here>
+*    Ethen Campbell & Joseph Gyman
  * Summary:
  *    The Piece base class and all the derived classes:
  *       SPACE, KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN

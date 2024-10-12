@@ -50,7 +50,6 @@ int WINAPI WinMain(
 int main(int argc, char** argv)
 #endif // !_WIN32
 {
-
    // run all the unit tests
    testRunner();
    

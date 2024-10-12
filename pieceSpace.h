@@ -2,7 +2,7 @@
  * Header File:
  *    SPACE
  * Author:
- *    <your name here> 
+ *    Ethen Campbell & Joseph Gyman
  * Summary:
  *    The space
  ************************************************************************/

@@ -17,19 +17,27 @@ using namespace std;
 
 /***************************************************
  * MOVE : DEFAULT CONSTRUCTOR
+ * Initializes a move with invalid positions, default piece types,
+ * move type, and sets isWhite to true.
  ***************************************************/
 Move::Move()
+    : source(), dest(), promote(SPACE), capture(SPACE), moveType(MOVE), isWhite(true)
 {
-    source.setInvalid();
-    dest.setInvalid();
-    promote = SPACE;      // Default piece type is SPACE
-    capture = SPACE;      // Default capture is no capture (SPACE)
-    moveType = MOVE;      // Default move type
-    isWhite = true;       // Default isWhite to true
+    source.setInvalid(); // Set the source position as invalid
+    dest.setInvalid();   // Set the destination position as invalid
+}
+
+/***************************************************
+ * MOVE : INITIALIZE FROM STRING
+ * Constructor that initializes a move based on a string representation.
+ ***************************************************/
+Move::Move(const std::string& moveText) {
+    readFromString(moveText); // Parse the string to initialize the move
 }
 
 /***************************************************
  * MOVE : EQUALITY OPERATOR
+ * Checks if two moves are equal based on their attributes.
  ***************************************************/
 bool Move::operator==(const Move& rhs) const
 {
@@ -43,19 +51,18 @@ bool Move::operator==(const Move& rhs) const
 
 /***************************************************
  * MOVE : LESS THAN OPERATOR FOR COMPARISON
+ * Compares two moves based on their source and destination positions.
  ***************************************************/
 bool Move::operator<(const Move& rhs) const
 {
     if (this->source != rhs.source)
         return this->source < rhs.source;
-    if (this->dest != rhs.dest)
-        return this->dest < rhs.dest;
-    // Optionally include other fields like promote, capture, etc.
-    return false; // If all are equal, return false
+    return this->dest < rhs.dest; // Compare destination if sources are equal
 }
 
 /***************************************************
  * MOVE : CONVERT PieceType TO CHAR
+ * Converts a PieceType enum to its corresponding character representation.
  ***************************************************/
 char Move::letterFromPieceType(PieceType pt) const
 {
@@ -67,13 +74,14 @@ char Move::letterFromPieceType(PieceType pt) const
     case ROOK:   return 'r';
     case QUEEN:  return 'q';
     case KING:   return 'k';
-    case SPACE:  return ' '; // Empty space or no piece
-    default:     return '?'; // Error case
+    case SPACE:  return ' '; // Represents empty space or no piece
+    default:     return '?'; // Error case for unrecognized PieceType
     }
 }
 
 /***************************************************
  * MOVE : CONVERT CHAR TO PieceType
+ * Converts a character representation back to its corresponding PieceType.
  ***************************************************/
 PieceType Move::pieceTypeFromLetter(char letter) const
 {
@@ -85,26 +93,28 @@ PieceType Move::pieceTypeFromLetter(char letter) const
     case 'r': return ROOK;
     case 'q': return QUEEN;
     case 'k': return KING;
-    case ' ': return SPACE; // Empty space
+    case ' ': return SPACE; // Represents empty space
     default:  return SPACE;  // Default to SPACE for unrecognized input
     }
 }
 
 /***************************************************
  * MOVE : READ FROM STRING
+ * Parses a string representation of a move and initializes the move's
+ * attributes accordingly.
  ***************************************************/
 void Move::readFromString(const std::string& moveText)
 {
-    // Source position ('xx')
+    // Set the source position from the first two characters of moveText
     source.set(moveText[0] - 'a', moveText[1] - '1');
 
-    // Destination position ('xx')
+    // Set the destination position from the next two characters
     dest.set(moveText[2] - 'a', moveText[3] - '1');
 
-    // Default move type;
+    // Default move type is a regular move
     moveType = MOVE;
 
-    // If there is a 5th character, it indicates capture, promotion, or other move
+    // If there is a 5th character, process it for special move types
     if (moveText.size() > 4)
     {
         char special = moveText[4];
@@ -116,43 +126,42 @@ void Move::readFromString(const std::string& moveText)
         case 'n': // Capture a knight
             capture = KNIGHT;
             break;
-        case 'E': // En passant
+        case 'E': // En passant move
             moveType = ENPASSANT;
             break;
-        case 'c': // Castling kingside
+        case 'c': // Kingside castling
             moveType = CASTLE_KING;
             break;
-        case 'C': // Castling queenside
+        case 'C': // Queenside castling
             moveType = CASTLE_QUEEN;
             break;
         default:
-            promote = pieceTypeFromLetter(special);
+            promote = pieceTypeFromLetter(special); // Promotion type
         }
     }
 }
 
 /***************************************************
  * MOVE : GET TEXT OF A MOVE
+ * Generates the string representation of the move.
  ***************************************************/
 string Move::getText() const
 {
     stringstream ss;
 
-    // Insert source position
+    // Insert source and destination positions into the string stream
     ss << source;
-
-    // Insert destination position
     ss << dest;
 
-    // Handle special cases (capture, en passant, castling, etc.)
+    // Append special move type if applicable
     if (moveType == ENPASSANT)
         ss << 'E';
     else if (moveType == CASTLE_KING)
-        ss << 'c';  // King-side castling
+        ss << 'c'; // King-side castling
     else if (moveType == CASTLE_QUEEN)
-        ss << 'C';  // Queen-side castling
+        ss << 'C'; // Queen-side castling
     else if (capture != SPACE)
-        ss << letterFromPieceType(capture);  // Capture piece type
+        ss << letterFromPieceType(capture); // Capture piece type
 
-    return ss.str();
+    return ss.str(); // Return the complete string representation of the move
 }

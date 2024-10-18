@@ -12,6 +12,7 @@
 #include <stack>
 #include <cassert>
 #include "move.h"   // Because we return a set of Move
+#include <stdexcept> // For std::out_of_range
 
 class ogstream;
 class TestPawn;
@@ -23,6 +24,7 @@ class TestKing;
 class TestBoard;
 class Position;
 class Piece;
+class Space;
 
 
 
@@ -50,12 +52,17 @@ public:
    virtual bool whiteTurn()      const { return false;  }
    virtual void display(const Position& posHover, const Position& posSelect) const;
    virtual const Piece& operator [] (const Position& pos) const;
+   virtual Piece& operator [] (const Position& pos);
 
    // setters
    virtual void free();
    virtual void reset(bool fFree = true);
    virtual void move(const Move & move);
-   virtual Piece& operator [] (const Position& pos);
+
+   // Method that sets a piece at a position
+   void setPiece(const Position& pos, Piece* piece);
+
+   bool Board::isPositionValid(const Position& pos) const;
 
 protected:
    void  assertBoard();
@@ -64,6 +71,7 @@ protected:
    int numMoves;
 
    ogstream* pgout;
+   Space* pSpace;
 };
 
 
@@ -123,4 +131,3 @@ public:
    }
    int  getCurrentMove() const { return moveNumber; }
 };
-

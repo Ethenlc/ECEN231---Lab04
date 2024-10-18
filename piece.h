@@ -80,6 +80,11 @@ public:
    virtual void display(ogstream * pgout)                         const = 0;
    void getMoves(set <Move>& moves, const Board& board) const;
 
+   // Method to check if the piece is valid
+   bool isValid() const {
+       return this != nullptr; // Check if the pointer is not null
+   }
+
 protected:
 
    int  nMoves;                    // how many times have you moved?

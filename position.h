@@ -27,6 +27,11 @@ struct Delta
 {
     int dRow;
     int dCol;
+
+    // Operator overload for multiplying Delta by an integer
+    Delta operator*(int scalar) const {
+        return Delta{ dRow * scalar, dCol * scalar };
+    }
 };
 
 const Delta ADD_R = { 1,  0 };

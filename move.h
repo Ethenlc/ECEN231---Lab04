@@ -32,43 +32,60 @@ public:
     // Default constructor
     Move();
 
-    // Constructor to initialize from source and destination Positions and a PieceType.
-    Move(const Position& source, const Position& dest, PieceType type)
-        : source(source), dest(dest), promote(type), moveType(MOVE), isWhite(true), capture(SPACE) {}
+    Move(const Move& rhs) : promote(SPACE), capture(SPACE), isWhite(true), moveType(MOVE)
+    {
+        *this = rhs;
+    }
+    Move(const char* s, bool isW = true) : promote(SPACE), capture(SPACE), isWhite(isW), moveType(MOVE)
+    {
+        *this = s;
+    }
 
-    // Constructor to initialize from a string representation of a move.
-    Move(const std::string& moveText);
+    // getters
+    string getText() const;
+    const Position& getDes() const { return dest; }
+    const Position& getSrc() const { return source; }
+    PieceType getPromotion() const { return promote; }
+    PieceType getCapture() const { return capture; }
+    bool getEnPassant() const { return moveType == ENPASSANT; }
+    bool getCastleK() const { return moveType == CASTLE_KING; }
+    bool getCastleQ() const { return moveType == CASTLE_QUEEN; }
+    bool getWhiteMove() const { return isWhite; }
+    Move::MoveType getMoveType() const { return moveType; }
+    bool operator == (const Move & rhs) const;
+    bool operator == (const string& rhs) const { return getText() == rhs; }
+    bool operator != (const string& rhs) const { return getText() != rhs; }
+    bool operator != (const Move& rhs) const { return !(*this == rhs); }
+    bool operator < (const Move& rhs) const { return dest.getLocation() < rhs.getDes().getLocation(); }
 
-    // Equality operator for comparing two moves.
-    bool operator==(const Move& rhs) const;
+    // setters
+    void update() { text = getText(); }
+    void setCapture(PieceType pt) { capture = pt; update(); }
+    void setWhiteMove(bool f) { isWhite = f; update(); }
+    void setSrc(const Position& src) { source = src; update(); }
+    void setDes(const Position& des) { dest = des; update(); }
+    void setEnPassant() { moveType = ENPASSANT; update(); }
+    void setPromote(PieceType pt) { promote = pt; update(); }
+    void setCastle(bool isKing) { moveType = (isKing ? CASTLE_KING : CASTLE_QUEEN); update(); }
 
-    // Less than operator for ordering moves.
-    bool operator<(const Move& rhs) const;
+    // for file I/O though only file input is currently implemented
+    friend ostream& operator << (ostream& out, Move& rhs);
+    friend istream& operator >> (istream& in, Move& rhs);
 
-    // Convert PieceType to its character representation.
-    char letterFromPieceType(PieceType pt) const;
-
-    // Convert character to PieceType.
-    PieceType pieceTypeFromLetter(char letter) const;
-
-    // Read a move from a string and initialize its attributes.
-    void readFromString(const std::string& moveText);
-
-    // Get the textual representation of the move.
-    std::string getText() const;
-
-    // Setters for private members
-    void setSource(const Position& pos) { source = pos; }
-    void setDest(const Position& pos) { dest = pos; }
-    void setIsWhite(bool white) { isWhite = white; }
-    void setCapture(PieceType cap) { capture = cap; }
+    const Move& operator = (const Move& rhs);
+    const Move& operator = (const string& s) { read(s); return *this; }
+    const Move& operator = (const char* s) { read(string(s)); return *this; }
 
 private:
-    Position  source;    // Where the move originated from
-    Position  dest;      // Where the move finished
-    PieceType promote;   // Piece to be promoted to
-    PieceType capture;   // Piece captured in this move, if any
-    MoveType  moveType;  // The type of move (e.g., normal, en passant, castling)
-    bool      isWhite;   // True if it's white's turn, false otherwise
-    std::string text;    // Textual representation of the move (for debugging)
+    void read(const std::string& s);
+    char letterFromPieceType(PieceType pt) const;
+    PieceType pieceTypeFromLetter(char letter) const;
+
+    Position source;
+    Position dest;
+    PieceType promote;
+    PieceType capture;
+    MoveType moveType;
+    bool isWhite;
+    string text;
 };

@@ -34,8 +34,7 @@ void TestMove::constructor_default()
  **************************************/
 void TestMove::constructString_simple()
 {
-	Move move;
-	move.readFromString("e5e6");
+	Move move("e5e6");
 	assertUnit(move.source.getCol() == 4);
 	assertUnit(move.source.getRow() == 4);
 	assertUnit(move.dest.getCol() == 4);
@@ -52,8 +51,7 @@ void TestMove::constructString_simple()
  **************************************/
 void TestMove::read_simple()
 {
-	Move move;
-	move.readFromString("e5e6");
+	Move move("e5e6");
 	assertUnit(move.source.getCol() == 4);
 	assertUnit(move.source.getRow() == 4);
 	assertUnit(move.dest.getCol() == 4);
@@ -71,8 +69,7 @@ void TestMove::read_simple()
  **************************************/
 void TestMove::read_capture()
 {
-	Move move;
-	move.readFromString("e5d6r");
+	Move move("e5d6r");
 	assertUnit(move.source.getCol() == 4);
 	assertUnit(move.source.getRow() == 4);
 	assertUnit(move.dest.getCol() == 3);
@@ -89,8 +86,7 @@ void TestMove::read_capture()
  **************************************/
 void TestMove::read_enpassant()
 {
-	Move move;
-	move.readFromString("e5f6E");
+	Move move("e5f6E");
 	assertUnit(move.source.getCol() == 4);
 	assertUnit(move.source.getRow() == 4);
 	assertUnit(move.dest.getCol() == 5);
@@ -107,8 +103,7 @@ void TestMove::read_enpassant()
  **************************************/
 void TestMove::read_castleKing()
 {
-	Move move;
-	move.readFromString("e1g1c");
+	Move move("e1g1c");
 	assertUnit(move.source.getCol() == 4);
 	assertUnit(move.source.getRow() == 0);
 	assertUnit(move.dest.getCol() == 6);
@@ -125,8 +120,7 @@ void TestMove::read_castleKing()
  **************************************/
 void TestMove::read_castleQueen()
 {
-	Move move;
-	move.readFromString("e1c1C");
+	Move move("e1c1C");
 	assertUnit(move.source.getCol() == 4);
 	assertUnit(move.source.getRow() == 0);
 	assertUnit(move.dest.getCol() == 2);
@@ -144,7 +138,8 @@ void TestMove::read_castleQueen()
 void TestMove::assign_simple()
 {
 	Move move1;
-	move1.readFromString("e5e6");
+	move1.setSrc(Position(4, 4));
+	move1.setDes(Position(4, 5));
 
 	Move move2;
 	move2 = move1;
@@ -167,7 +162,9 @@ void TestMove::assign_simple()
 void TestMove::assign_capture()
 {
 	Move move1;
-	move1.readFromString("e5d6r");
+	move1.setSrc(Position(4, 4)); // 'e5'
+	move1.setDes(Position(3, 5)); // 'd6'
+	move1.setCapture(ROOK); // Capturing a rook
 
 	Move move2;
 	move2 = move1;
@@ -190,7 +187,9 @@ void TestMove::assign_capture()
 void TestMove::assign_enpassant()
 {
 	Move move1;
-	move1.readFromString("e5f6E");
+	move1.setSrc(Position(4, 4)); // 'e5'
+	move1.setDes(Position(5, 5)); // 'f6'
+	move1.setEnPassant(); // Sets the move type to ENPASSANT
 
 	Move move2;
 	move2 = move1;
@@ -212,7 +211,10 @@ void TestMove::assign_enpassant()
 void TestMove::assign_castleKing()
 {
 	Move move1;
-	move1.readFromString("e1g1c");
+	move1.setSrc(Position(4, 0)); // 'e1'
+	move1.setDes(Position(6, 0)); // 'g1'
+	move1.setCastle(true); // Set for king-side castling (c)
+
 
 	Move move2;
 	move2 = move1;
@@ -234,7 +236,9 @@ void TestMove::assign_castleKing()
 void TestMove::assign_castleQueen()
 {
 	Move move1;
-	move1.readFromString("e1c1C");
+	move1.setSrc(Position(4, 0)); // 'e1'
+	move1.setDes(Position(2, 0)); // 'c1'
+	move1.setCastle(false); // Set for queen-side castling (C)
 
 	Move move2;
 	move2 = move1;

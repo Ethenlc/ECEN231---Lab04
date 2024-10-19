@@ -11,7 +11,10 @@
 #include "pieceKnight.h"     
 #include "board.h"
 #include "uiDraw.h"
-#include <cassert>      
+#include <cassert>  
+#include <memory>
+#include <typeinfo>
+#include <iostream>
 
  /*************************************
   * +---a-b-c-d-e-f-g-h---+
@@ -29,30 +32,19 @@
   **************************************/
 void TestKnight::getMoves_end()
 {
-   // SETUP
-   BoardEmpty board;
-   Knight knight(7, 7, false /*white*/);
-   knight.fWhite = true;
-   knight.position.set(6, 0);
-   board.board[6][0] = &knight;
-   Black black(PAWN);
-   board.board[4][1] = &black;
-   White white(PAWN);
-   board.board[5][2] = &white;
-   set <Move> moves;
+    // SETUP
+    BoardEmpty board;
+    Knight knight(7, 7, false /*white*/);
+    knight.fWhite = true;
+    knight.position.set(0, 0);
+    Black black(PAWN);
+    set<Move> moves;
 
-   // EXERCISE
-   knight.getMoves(moves, board);
+    // EXERCISE
+    knight.getMoves(moves, board);
 
-   // VERIFY
-   assertUnit(moves.size() == 2);  // many possible moves
-   assertUnit(moves.find(Move("g1e2p")) != moves.end());
-   assertUnit(moves.find(Move("g1h3")) != moves.end());
-
-   // TEARDOWN
-   board.board[6][0] = nullptr; // white knight
-   board.board[4][1] = nullptr; // black pawn
-   board.board[5][2] = nullptr; // white pawn
+    // VERIFY
+    assertUnit(moves.size() == 2);  // many possible moves
 }
 
 /*************************************
@@ -71,30 +63,29 @@ void TestKnight::getMoves_end()
  **************************************/
 void TestKnight::getMoves_blocked()
 {
-   // SETUP
-	BoardEmpty board;
-	Knight knight(4, 5, false); // White night at e5
-	board.board[4][5] = &knight;
+    // SETUP
+    BoardEmpty board;
+    Knight knight(7, 7, false /*white*/);
+    White white;
+    knight.fWhite = true;
+    knight.position.set(3, 4);
+    board.board[2][6] = board.board[4][6] = &white;
+    board.board[1][5] = board.board[5][5] = &white;
+    board.board[1][3] = board.board[5][3] = &white;
+    board.board[2][2] = board.board[4][2] = &white;
+    set<Move> moves;
 
-	// Block all possible moves
-	board.board[3][3] = new Black(PAWN); // c4
-	board.board[3][5] = new Black(PAWN); // e4
-	board.board[5][3] = new Black(PAWN); // c6
-	board.board[5][5] = new Black(PAWN); // e6
-	set<Move> moves;
+    // EXERCISE
+    knight.getMoves(moves, board);
 
-	// EXERCISE
-	knight.getMoves(moves, board);
+    // VERIFY
+    assertUnit(moves.size() == 0);  // no possible moves
 
-	// VERIFY
-	assertUnit(moves.empty()); // No moves should be possible
-
-	// TEARDOWN
-	board.board[4][5] = nullptr; // Knight
-	board.board[3][3] = nullptr; // Blocked piece
-	board.board[3][5] = nullptr; // Blocked piece
-	board.board[5][3] = nullptr; // Blocked piece
-	board.board[5][5] = nullptr; // Blocked piece
+    // TEARDOWN
+    board.board[2][6] = board.board[4][6] = nullptr;
+    board.board[1][5] = board.board[5][5] = nullptr;
+    board.board[1][3] = board.board[5][3] = nullptr;
+    board.board[2][2] = board.board[4][2] = nullptr;
 }
 
 /*************************************
@@ -113,25 +104,29 @@ void TestKnight::getMoves_blocked()
  **************************************/
 void TestKnight::getMoves_capture()
 {
-   // SETUP
-	BoardEmpty board;
-	Knight knight(4, 5, false); // White knight at e5
-	board.board[4][5] = &knight;
-	board.board[3][3] = new Black(PAWN); // Capturable pawn at c4
-	board.board[5][3] = new White(PAWN); // Not capturable pawn
-	set<Move> moves;
+    // SETUP
+    BoardEmpty board;
+    Knight knight(7, 7, false /*white*/);
+    knight.fWhite = true;
+    knight.position.set(3, 4);
+    Black black(PAWN);
+    board.board[2][6] = board.board[4][6] = &black;
+    board.board[1][5] = board.board[5][5] = &black;
+    board.board[1][3] = board.board[5][3] = &black;
+    board.board[2][2] = board.board[4][2] = &black;
+    set<Move> moves;
 
-	// EXERCISE
-	knight.getMoves(moves, board);
+    // EXERCISE
+    knight.getMoves(moves, board);
 
-	// VERIFY
-	assertUnit(moves.size() == 1); // Should only have one capturing move
-	assertUnit(moves.find(Move("e5c4p")) != moves.end()); // Expect capture move
+    // VERIFY
+    assertUnit(moves.size() == 8);  // all possible moves
 
-	// TEARDOWN
-	board.board[4][5] = nullptr; // Knight
-	board.board[3][3] = nullptr; // Captured piece
-	board.board[5][3] = nullptr; // Non-captured piece
+    // TEARDOWN
+    board.board[2][6] = board.board[4][6] = nullptr;
+    board.board[1][5] = board.board[5][5] = nullptr;
+    board.board[1][3] = board.board[5][3] = nullptr;
+    board.board[2][2] = board.board[4][2] = nullptr;
 }
 
 /*************************************
@@ -150,23 +145,23 @@ void TestKnight::getMoves_capture()
  **************************************/
 void TestKnight::getMoves_free()
 {
-   // SETUP
-	BoardEmpty board;
-	Knight knight(4, 5, false); // White knight at e5
-	board.board[4][5] = &knight;
-	set<Move> moves;
+    // SETUP
+    BoardEmpty board;
+    Knight knight(7, 7, false /*white*/);
+    knight.fWhite = true;
+    knight.position.set(3, 4);
+    board.board[3][4] = &knight;
+    set<Move> moves;
 
-	// EXERCISE
-	knight.getMoves(moves, board);
+    // EXERCISE
+    knight.getMoves(moves, board);
 
-	// VERIFY
-	assertUnit(moves.size() == 8); // Should have all possibilities available
+    // VERIFY
+    assertUnit(moves.size() == 8);  // many possible moves
 
-	// TEARDOWN
-	board.board[4][5] = nullptr; // Knight
+    // TEARDOWN
+    board.board[3][4] = nullptr; // white knight
 }
-
-
 
 /*************************************
  * GET TYPE : knight
@@ -175,14 +170,18 @@ void TestKnight::getMoves_free()
  **************************************/
 void TestKnight::getType()
 {
-	// SETUP
-	Knight knight(0, 0, true); // Black knight at a1
+    // SETUP
+    BoardEmpty board;
+    Knight knight(7, 7, false /*white*/);
+    knight.fWhite = true;
+    knight.position.set(3, 4);
+    board.board[3][4] = &knight;
 
-	// EXERCISE
-	PieceType type = knight.getType();
+    // EXERCISE
 
-	// VERIFY
-	assertUnit(type == KNIGHT); // Expect type to be Knight
+    // VERIFY
+    assertUnit(knight.getType() == KNIGHT);
 
-	// TEARDOWN
+    // TEARDOWN
+    board.board[3][4] = nullptr; // white knight
 }

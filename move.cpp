@@ -17,52 +17,42 @@ using namespace std;
 
 /***************************************************
  * MOVE : DEFAULT CONSTRUCTOR
- * Initializes a move with invalid positions, default piece types,
- * move type, and sets isWhite to true.
  ***************************************************/
 Move::Move()
-    : source(), dest(), promote(SPACE), capture(SPACE), moveType(MOVE), isWhite(true)
+    : promote(SPACE), capture(SPACE), isWhite(true), moveType(MOVE)
 {
-    source.setInvalid(); // Set the source position as invalid
-    dest.setInvalid();   // Set the destination position as invalid
-}
-
-/***************************************************
- * MOVE : INITIALIZE FROM STRING
- * Constructor that initializes a move based on a string representation.
- ***************************************************/
-Move::Move(const std::string& moveText) {
-    readFromString(moveText); // Parse the string to initialize the move
+    source.setInvalid();
+    dest.setInvalid();
+    text = getText();  // Initialize the text with the default move text
 }
 
 /***************************************************
  * MOVE : EQUALITY OPERATOR
- * Checks if two moves are equal based on their attributes.
  ***************************************************/
 bool Move::operator==(const Move& rhs) const
 {
-    return (this->source == rhs.source &&
-        this->dest == rhs.dest &&
-        this->promote == rhs.promote &&
-        this->capture == rhs.capture &&
-        this->moveType == rhs.moveType &&
-        this->isWhite == rhs.isWhite);
+    return (source == rhs.source &&
+        dest == rhs.dest &&
+        promote == rhs.promote &&
+        capture == rhs.capture &&
+        moveType == rhs.moveType &&
+        isWhite == rhs.isWhite);
 }
 
 /***************************************************
  * MOVE : LESS THAN OPERATOR FOR COMPARISON
- * Compares two moves based on their source and destination positions.
  ***************************************************/
-bool Move::operator<(const Move& rhs) const
-{
-    if (this->source != rhs.source)
-        return this->source < rhs.source;
-    return this->dest < rhs.dest; // Compare destination if sources are equal
-}
+//bool Move::operator<(const Move& rhs) const
+//{
+//    if (source != rhs.source)
+//        return source < rhs.source;
+//    if (dest != rhs.dest)
+//        return dest < rhs.dest;
+//    return false; // If all are equal, return false
+//}
 
 /***************************************************
  * MOVE : CONVERT PieceType TO CHAR
- * Converts a PieceType enum to its corresponding character representation.
  ***************************************************/
 char Move::letterFromPieceType(PieceType pt) const
 {
@@ -74,14 +64,13 @@ char Move::letterFromPieceType(PieceType pt) const
     case ROOK:   return 'r';
     case QUEEN:  return 'q';
     case KING:   return 'k';
-    case SPACE:  return ' '; // Represents empty space or no piece
-    default:     return '?'; // Error case for unrecognized PieceType
+    case SPACE:  return ' '; // Empty space or no piece
+    default:     return '?'; // Error case
     }
 }
 
 /***************************************************
  * MOVE : CONVERT CHAR TO PieceType
- * Converts a character representation back to its corresponding PieceType.
  ***************************************************/
 PieceType Move::pieceTypeFromLetter(char letter) const
 {
@@ -93,28 +82,26 @@ PieceType Move::pieceTypeFromLetter(char letter) const
     case 'r': return ROOK;
     case 'q': return QUEEN;
     case 'k': return KING;
-    case ' ': return SPACE; // Represents empty space
+    case ' ': return SPACE; // Empty space
     default:  return SPACE;  // Default to SPACE for unrecognized input
     }
 }
 
 /***************************************************
  * MOVE : READ FROM STRING
- * Parses a string representation of a move and initializes the move's
- * attributes accordingly.
  ***************************************************/
-void Move::readFromString(const std::string& moveText)
+void Move::read(const std::string& moveText)
 {
-    // Set the source position from the first two characters of moveText
+    // Source position ('xx')
     source.set(moveText[0] - 'a', moveText[1] - '1');
 
-    // Set the destination position from the next two characters
+    // Destination position ('xx')
     dest.set(moveText[2] - 'a', moveText[3] - '1');
 
-    // Default move type is a regular move
+    // Default move type
     moveType = MOVE;
 
-    // If there is a 5th character, process it for special move types
+    // If there is a 5th character, it indicates capture, promotion, or special move
     if (moveText.size() > 4)
     {
         char special = moveText[4];
@@ -126,42 +113,83 @@ void Move::readFromString(const std::string& moveText)
         case 'n': // Capture a knight
             capture = KNIGHT;
             break;
-        case 'E': // En passant move
+        case 'E': // En passant
             moveType = ENPASSANT;
             break;
-        case 'c': // Kingside castling
+        case 'c': // Castling kingside
             moveType = CASTLE_KING;
             break;
-        case 'C': // Queenside castling
+        case 'C': // Castling queenside
             moveType = CASTLE_QUEEN;
             break;
         default:
-            promote = pieceTypeFromLetter(special); // Promotion type
+            promote = pieceTypeFromLetter(special);
         }
     }
+
+    update(); // Update the text representation after reading
 }
 
 /***************************************************
  * MOVE : GET TEXT OF A MOVE
- * Generates the string representation of the move.
  ***************************************************/
 string Move::getText() const
 {
     stringstream ss;
 
-    // Insert source and destination positions into the string stream
+    // Insert source position
     ss << source;
+
+    // Insert destination position
     ss << dest;
 
-    // Append special move type if applicable
+    // Handle special cases (capture, en passant, castling, etc.)
     if (moveType == ENPASSANT)
         ss << 'E';
     else if (moveType == CASTLE_KING)
-        ss << 'c'; // King-side castling
+        ss << 'c';  // King-side castling
     else if (moveType == CASTLE_QUEEN)
-        ss << 'C'; // Queen-side castling
+        ss << 'C';  // Queen-side castling
     else if (capture != SPACE)
-        ss << letterFromPieceType(capture); // Capture piece type
+        ss << letterFromPieceType(capture);  // Capture piece type
 
-    return ss.str(); // Return the complete string representation of the move
+    return ss.str();
+}
+
+/***************************************************
+ * MOVE : ASSIGNMENT OPERATOR
+ ***************************************************/
+const Move& Move::operator=(const Move& rhs)
+{
+    if (this != &rhs)
+    {
+        source = rhs.source;
+        dest = rhs.dest;
+        promote = rhs.promote;
+        capture = rhs.capture;
+        moveType = rhs.moveType;
+        isWhite = rhs.isWhite;
+        text = rhs.text;
+    }
+    return *this;
+}
+
+/***************************************************
+ * MOVE : STREAM INSERTION OPERATOR
+ ***************************************************/
+ostream& operator<<(ostream& out, Move& rhs)
+{
+    out << rhs.getText();
+    return out;
+}
+
+/***************************************************
+ * MOVE : STREAM EXTRACTION OPERATOR
+ ***************************************************/
+istream& operator>>(istream& in, Move& rhs)
+{
+    string input;
+    in >> input;
+    rhs.read(input);
+    return in;
 }

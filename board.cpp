@@ -1,6 +1,6 @@
 /***********************************************************************
  * Source File:
- *    BOARD 
+ *    BOARD
  * Author:
  *    <your name here>
  * Summary:
@@ -8,14 +8,13 @@
  ************************************************************************/
 
 #include "board.h"
+#include "move.h"
 #include "uiDraw.h"
 #include "position.h"
 #include "piece.h"
 #include "pieceSpace.h"
 #include "pieceKnight.h"
 #include <cassert>
-#include <stdexcept>
-
 using namespace std;
 
 
@@ -37,63 +36,57 @@ using namespace std;
  ***********************************************/
 void Board::reset(bool fFree)
 {
-    // Free all existing pieces and set squares to nullptr
-    for (int r = 0; r < 8; r++)
-        for (int c = 0; c < 8; c++)
-        {
-            if (fFree && board[c][r])
-                delete board[c][r];
-            board[c][r] = nullptr;
-        }
+	// free everything
+	if (fFree)
+		free();
 
-    // Initialize Knights
-    board[1][0] = new Knight(Position(1, 0), true);  // White knight
-    board[6][0] = new Knight(Position(6, 0), true);  // White knight
-    board[1][7] = new Knight(Position(1, 7), false); // Black knight
-    board[6][7] = new Knight(Position(6, 7), false); // Black knight
+	for (int r = 0; r < 8; r++)
+		for (int c = 0; c < 8; c++)
+			board[c][r] = nullptr;
+
+	board[1][0] = new Knight(1, 0, true);
+	board[6][0] = new Knight(6, 0, true);
+	board[1][7] = new Knight(1, 7, false);
+	board[6][7] = new Knight(6, 7, false);
+
+	for (int r = 0; r < 8; r++)
+		for (int c = 0; c < 8; c++)
+			if (nullptr == board[c][r])
+				board[c][r] = new Space(c, r);
+
+	numMoves = 0;
+	assertBoard();
 }
 
 // we really REALLY need to delete this.
-Space space(0,0);
+Space space(0, 0);
 
 /***********************************************
-* BOARD : GET (const)
+* BOARD : GET
 * Get a piece from a given position.
 ***********************************************/
-const Piece& Board::operator[](const Position& pos) const
+const Piece& Board::operator [] (const Position& pos) const
 {
-    // Check if the position is valid
-    if (!isPositionValid(pos))
-        return *pSpace;  // Return the default space piece for invalid positions
-
-    // Return the piece at the given position, or a space if it's nullptr
-    return board[pos.getCol()][pos.getRow()] ? *board[pos.getCol()][pos.getRow()] : *pSpace;
+    assert(0 <= pos.getCol() && pos.getCol() < 8);
+    assert(0 <= pos.getRow() && pos.getRow() < 8);
+    assert(nullptr != board[pos.getCol()][pos.getRow()]);
+    return *board[pos.getCol()][pos.getRow()];
 }
-
-/***********************************************
- * BOARD : GET (non-const)
- * Get a piece from a given position (non-const version)
- ***********************************************/
-Piece& Board::operator[](const Position& pos)
+Piece& Board::operator [] (const Position& pos)
 {
-    // Check if the position is valid
-    if (!isPositionValid(pos))
-        throw std::out_of_range("Invalid board position");
-
-    // If the position is empty, create a new Space piece
-    if (!board[pos.getCol()][pos.getRow()])
-        board[pos.getCol()][pos.getRow()] = new Space(pos.getCol(), pos.getRow());
-
+    assert(0 <= pos.getCol() && pos.getCol() < 8);
+    assert(0 <= pos.getRow() && pos.getRow() < 8);
+    assert(nullptr != board[pos.getCol()][pos.getRow()]);
     return *board[pos.getCol()][pos.getRow()];
 }
 
- /***********************************************
- * BOARD : DISPLAY
- *         Display the board
- ***********************************************/
-void Board::display(const Position & posHover, const Position & posSelect) const
+/***********************************************
+* BOARD : DISPLAY
+*         Display the board
+***********************************************/
+void Board::display(const Position& posHover, const Position& posSelect) const
 {
-   
+
 }
 
 
@@ -101,34 +94,25 @@ void Board::display(const Position & posHover, const Position & posSelect) const
  * BOARD : CONSTRUCT
  *         Free up all the allocated memory
  ************************************************/
-Board::Board(ogstream* pgout, bool noreset) : pgout(pgout), numMoves(0)
-{
-    pSpace = new Space(0, 0);  // Initialize the default space piece
-    if (!noreset)
-        reset();
+Board::Board(ogstream* pgout, bool noreset) : pgout(pgout), numMoves(0) {
+	// Optionally initialize your board positions
+	for (int r = 0; r < 8; r++)
+		for (int c = 0; c < 8; c++)
+			board[c][r] = nullptr;  // Initialize each square to nullptr
 }
-
 
 /************************************************
  * BOARD : FREE
  *         Free up all the allocated memory
  ************************************************/
-void Board::free()
-{
-    // Free all pieces on the board
-    for (int r = 0; r < 8; r++)
-        for (int c = 0; c < 8; c++)
-            if (board[c][r])
-            {
-                delete board[c][r];
-                board[c][r] = nullptr;
-            }
-
-    // Free the default space piece
-    delete pSpace;
-    pSpace = nullptr;
+void Board::free() {
+	for (int r = 0; r < 8; r++) {
+		for (int c = 0; c < 8; c++) {
+			delete board[c][r]; // Delete each piece, if it exists
+			board[c][r] = nullptr; // Set the pointer to nullptr after deletion
+		}
+	}
 }
-
 
 /**********************************************
  * BOARD : ASSERT BOARD
@@ -147,17 +131,24 @@ void Board::assertBoard()
  *         Execute a move according to the contained instructions
  *   INPUT move The instructions of the move
  *********************************************/
-void Board::move(const Move & move)
-{  
+void Board::move(const Move& move) {
+	Position src = move.getSrc();
+	Position dest = move.getDes();
 
-}
+	if (src.isValid() && dest.isValid()) {
+		// Capture logic: delete the piece at the destination if it's not a SPACE
+		if (board[dest.getCol()][dest.getRow()] &&
+			board[dest.getCol()][dest.getRow()]->getType() != SPACE) {
+			delete board[dest.getCol()][dest.getRow()]; // Delete the captured piece
+		}
 
-/**********************************************
- * BOARD : IS POSITION VALID
- * Check if a given position is valid on the board
- *********************************************/
-bool Board::isPositionValid(const Position& pos) const {
-    return (pos.getCol() >= 0 && pos.getCol() < 8 && pos.getRow() >= 0 && pos.getRow() < 8);
+		// Move the knight from src to dest
+		board[dest.getCol()][dest.getRow()] = board[src.getCol()][src.getRow()];
+		board[src.getCol()][src.getRow()] = new Space(src.getCol(), src.getRow()); // Create a space where the piece was
+
+		// Update move count
+		numMoves++;
+	}
 }
 
 /**********************************************
@@ -168,27 +159,14 @@ bool Board::isPositionValid(const Position& pos) const {
  *********************************************/
 BoardEmpty::BoardEmpty() : BoardDummy(), pSpace(nullptr), moveNumber(0)
 {
-   pSpace = new Space(0, 0);
+	pSpace = new Space(0, 0);
 }
-BoardEmpty::~BoardEmpty() 
+BoardEmpty::~BoardEmpty()
 {
-   delete pSpace;
+	delete pSpace;
 }
 
-/**********************************************
- * BOARD : SET PIECE
- * Set a piece at a specific position on the board
- *********************************************/
-void Board::setPiece(const Position& pos, Piece* piece)
-{
-    if (isPositionValid(pos))
-    {
-        if (board[pos.getCol()][pos.getRow()])
-            delete board[pos.getCol()][pos.getRow()];
-        board[pos.getCol()][pos.getRow()] = piece;
-    }
-    else
-    {
-        throw std::out_of_range("Invalid board position for setting piece");
-    }
+// Board Destructor
+Board::~Board() {
+	free();
 }

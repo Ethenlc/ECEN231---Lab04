@@ -85,7 +85,17 @@ public:
     // Delta:    The Position class can work with deltas, which are
     //           offsets from a given location. This helps pieces move
     //           on the chess board.
-    Position(const Position& rhs, const Delta& delta) : colRow(-1) { }
+    Position::Position(const Position& rhs, const Delta& delta) {
+        int newCol = rhs.getCol() + delta.dCol;
+        int newRow = rhs.getRow() + delta.dRow;
+        if (newCol >= 0 && newCol <= 7 && newRow >= 0 && newRow <= 7) {
+            colRow = (uint8_t)((newCol << 4) | (newRow & 0x0F));
+        }
+        else {
+            setInvalid();
+        }
+    }
+
     void adjustRow(int dRow);
     void adjustCol(int dCol);
 

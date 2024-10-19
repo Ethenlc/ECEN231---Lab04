@@ -11,30 +11,30 @@
 
 #include "unitTest.h"
 
- /***************************************************
-  * QUEEN TEST
-  * Test the Queen class
-  ***************************************************/
+/***************************************************
+ * QUEEN TEST
+ * Test the Queen class
+ ***************************************************/
 class TestQueen : public UnitTest
 {
 public:
 
-    void run()
-    {
-        getMoves_blocked();
-        getMoves_slideToEnd();
-        getMoves_slideToBlock();
-        getMoves_slideToCapture();
+   void run()
+   {
+      getMoves_blocked();
+      getMoves_slideToEnd(); 
+      getMoves_slideToBlock();
+      getMoves_slideToCapture();
 
-        getType();
-
-        report("Queen");
-    }
+      getType();
+      
+      report("Queen");
+   }
 private:
-    void getMoves_blocked();
-    void getMoves_slideToEnd();
-    void getMoves_slideToBlock();
-    void getMoves_slideToCapture();
-    void getType();
+   void getMoves_blocked();
+   void getMoves_slideToEnd();
+   void getMoves_slideToBlock();
+   void getMoves_slideToCapture();
+   void getType();
 
 };

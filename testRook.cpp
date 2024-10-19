@@ -14,23 +14,23 @@
 #include <cassert>      
 
 
- /*************************************
-  * +---a-b-c-d-e-f-g-h---+
-  * |                     |
-  * 8                     8
-  * 7                     7
-  * 6                     6
-  * 5                     5
-  * 4                     4
-  * 3       p             3
-  * 2     p(r)p           2
-  * 1       p             1
-  * |                     |
-  * +---a-b-c-d-e-f-g-h---+
-  **************************************/
+/*************************************
+ * +---a-b-c-d-e-f-g-h---+
+ * |                     |
+ * 8                     8
+ * 7                     7
+ * 6                     6
+ * 5                     5
+ * 4                     4
+ * 3       p             3
+ * 2     p(r)p           2
+ * 1       p             1
+ * |                     |
+ * +---a-b-c-d-e-f-g-h---+
+ **************************************/
 void TestRook::getMoves_blocked()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -50,7 +50,7 @@ void TestRook::getMoves_blocked()
  **************************************/
 void TestRook::getMoves_slideToEnd()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -70,7 +70,7 @@ void TestRook::getMoves_slideToEnd()
  **************************************/
 void TestRook::getMoves_slideToBlock()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -89,7 +89,7 @@ void TestRook::getMoves_slideToBlock()
  **************************************/
 void TestRook::getMoves_slideToCapture()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -100,5 +100,5 @@ void TestRook::getMoves_slideToCapture()
  **************************************/
 void TestRook::getType()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }

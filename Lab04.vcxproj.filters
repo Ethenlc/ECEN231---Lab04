@@ -57,6 +57,9 @@
     <ClCompile Include="pieceKnight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testBoard2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="testBishop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,9 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="testRook.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pieceBishop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,6 +131,9 @@
     <ClInclude Include="testBishop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="testBoard2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="testKing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -141,21 +144,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="testRook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pieceBishop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pieceRook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="piecePawn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pieceQueen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pieceKing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

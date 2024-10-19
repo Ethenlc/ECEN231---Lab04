@@ -108,6 +108,7 @@
     <ClCompile Include="test.cpp" />
     <ClCompile Include="testBishop.cpp" />
     <ClCompile Include="testBoard.cpp" />
+    <ClCompile Include="testBoard2.cpp" />
     <ClCompile Include="testKing.cpp" />
     <ClCompile Include="testKnight.cpp" />
     <ClCompile Include="testMove.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="test.h" />
     <ClInclude Include="testBishop.h" />
     <ClInclude Include="testBoard.h" />
+    <ClInclude Include="testBoard2.h" />
     <ClInclude Include="testKing.h" />
     <ClInclude Include="testKnight.h" />
     <ClInclude Include="testMove.h" />

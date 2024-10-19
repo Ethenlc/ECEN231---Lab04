@@ -16,23 +16,23 @@
 
 
 
- /*************************************
-  * +---a-b-c-d-e-f-g-h---+
-  * |                     |
-  * 8                     8
-  * 7                     7
-  * 6                     6
-  * 5                     5
-  * 4                     4
-  * 3     p p p           3
-  * 2     p(q)p           2
-  * 1     p p p           1
-  * |                     |
-  * +---a-b-c-d-e-f-g-h---+
-  **************************************/
+/*************************************
+ * +---a-b-c-d-e-f-g-h---+
+ * |                     |
+ * 8                     8
+ * 7                     7
+ * 6                     6
+ * 5                     5
+ * 4                     4
+ * 3     p p p           3
+ * 2     p(q)p           2
+ * 1     p p p           1
+ * |                     |
+ * +---a-b-c-d-e-f-g-h---+
+ **************************************/
 void TestQueen::getMoves_blocked()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -51,7 +51,7 @@ void TestQueen::getMoves_blocked()
  **************************************/
 void TestQueen::getMoves_slideToEnd()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -70,7 +70,7 @@ void TestQueen::getMoves_slideToEnd()
  **************************************/
 void TestQueen::getMoves_slideToBlock()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -89,7 +89,7 @@ void TestQueen::getMoves_slideToBlock()
  **************************************/
 void TestQueen::getMoves_slideToCapture()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -100,5 +100,5 @@ void TestQueen::getMoves_slideToCapture()
  **************************************/
 void TestQueen::getType()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }

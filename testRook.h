@@ -11,29 +11,29 @@
 
 #include "unitTest.h"
 
- /***************************************************
-  * ROOK TEST
-  * Test the Rook class
-  ***************************************************/
+/***************************************************
+ * ROOK TEST
+ * Test the Rook class
+ ***************************************************/
 class TestRook : public UnitTest
 {
 public:
 
-    void run()
-    {
-        getMoves_blocked();
-        getMoves_slideToEnd();
-        getMoves_slideToBlock();
-        getMoves_slideToCapture();
+   void run()
+   {
+      getMoves_blocked();
+      getMoves_slideToEnd();
+      getMoves_slideToBlock();
+      getMoves_slideToCapture();
 
-        getType();
-
-        report("Rook");
-    }
+      getType();
+      
+      report("Rook");
+   }
 private:
-    void getMoves_blocked();
-    void getMoves_slideToEnd();
-    void getMoves_slideToBlock();
-    void getMoves_slideToCapture();
-    void getType();
+   void getMoves_blocked();
+   void getMoves_slideToEnd();
+   void getMoves_slideToBlock();
+   void getMoves_slideToCapture();
+   void getType();
 };

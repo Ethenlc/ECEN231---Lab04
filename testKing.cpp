@@ -15,23 +15,23 @@
 #include <cassert>      
 
 
- /*************************************
-  * +---a-b-c-d-e-f-g-h---+
-  * |                     |
-  * 8                     8
-  * 7                     7
-  * 6       p p p         6
-  * 5       p(k)p         5
-  * 4       p p p         4
-  * 3                     3
-  * 2                     2
-  * 1                     1
-  * |                     |
-  * +---a-b-c-d-e-f-g-h---+
-  **************************************/
+/*************************************
+ * +---a-b-c-d-e-f-g-h---+
+ * |                     |
+ * 8                     8
+ * 7                     7
+ * 6       p p p         6
+ * 5       p(k)p         5
+ * 4       p p p         4
+ * 3                     3
+ * 2                     2
+ * 1                     1
+ * |                     |
+ * +---a-b-c-d-e-f-g-h---+
+ **************************************/
 void TestKing::getMoves_blocked()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -50,7 +50,7 @@ void TestKing::getMoves_blocked()
  **************************************/
 void TestKing::getMoves_capture()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -70,7 +70,7 @@ void TestKing::getMoves_capture()
  **************************************/
 void TestKing::getMoves_free()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -90,7 +90,7 @@ void TestKing::getMoves_free()
  **************************************/
 void TestKing::getMoves_end()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -110,7 +110,7 @@ void TestKing::getMoves_end()
  **************************************/
 void TestKing::getMoves_whiteCastle()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -130,7 +130,7 @@ void TestKing::getMoves_whiteCastle()
  **************************************/
 void TestKing::getMoves_blackCastle()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -150,7 +150,7 @@ void TestKing::getMoves_blackCastle()
  **************************************/
 void TestKing::getMoves_whiteCastleKingMoved()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -170,7 +170,7 @@ void TestKing::getMoves_whiteCastleKingMoved()
  **************************************/
 void TestKing::getMoves_whiteCastleRookMoved()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -180,7 +180,7 @@ void TestKing::getMoves_whiteCastleRookMoved()
  **************************************/
 void TestKing::getType()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 

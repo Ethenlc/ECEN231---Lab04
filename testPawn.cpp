@@ -34,7 +34,7 @@
   **************************************/
 void TestPawn::getMoves_simpleWhite()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -56,7 +56,7 @@ void TestPawn::getMoves_simpleWhite()
  **************************************/
 void TestPawn::getMoves_simpleBlack()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -79,7 +79,7 @@ void TestPawn::getMoves_simpleBlack()
  **************************************/
 void TestPawn::getMoves_initialAdvanceWhite()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -101,7 +101,7 @@ void TestPawn::getMoves_initialAdvanceWhite()
  **************************************/
 void TestPawn::getMoves_initialAdvanceBlack()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -124,7 +124,7 @@ void TestPawn::getMoves_initialAdvanceBlack()
  **************************************/
 void TestPawn::getMoves_captureWhite()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -147,7 +147,7 @@ void TestPawn::getMoves_captureWhite()
  **************************************/
 void TestPawn::getMoves_captureBlack()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
@@ -169,7 +169,7 @@ void TestPawn::getMoves_captureBlack()
  **************************************/
 void TestPawn::getMoves_enpassantWhite()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -192,12 +192,12 @@ void TestPawn::getMoves_enpassantWhite()
  **************************************/
 void TestPawn::getMoves_enpassantBlack()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 /*************************************
  * GET MOVES TEST Promotion
- * Promotion: white pawn b7 can capture two pawns: a8 and c8.
+ * Promotion: white pawn b7 can capture two pawns: a8 and c8. 
  *            It can also move into b8. All three are promoted to queen
  *
  * +---a-b-c-d-e-f-g-h---+
@@ -215,7 +215,7 @@ void TestPawn::getMoves_enpassantBlack()
  **************************************/
 void TestPawn::getMoves_promotionWhite()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -239,7 +239,7 @@ void TestPawn::getMoves_promotionWhite()
  **************************************/
 void TestPawn::getMoves_promotionBlack()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
 
@@ -250,6 +250,6 @@ void TestPawn::getMoves_promotionBlack()
  **************************************/
 void TestPawn::getType()
 {
-	assertUnit(NOT_YET_IMPLEMENTED);
+   assertUnit(NOT_YET_IMPLEMENTED);
 }
 
